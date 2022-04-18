@@ -22,6 +22,7 @@
 ## Project Description
  > Your project description should summarize the project you are proposing. Be sure to include:
  > * Why is it important or interesting to you?
+ > Because there is a lot of rules in chess. It has many specific functions of chess pieces' movements and restrictions. We can also apply functions like undo to
  > * What languages/tools/technologies do you plan to use? (This list may change over the course of the project)
  >   * [toolname](link) - Short description
  > * What will be the input/output of your project? What are the features that the project provides?
