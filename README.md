@@ -14,7 +14,12 @@ Authors: \<[Aaron Song](https://github.com/AaronSxng)\> \<[Jingfang Guan](https:
  
 ## Class Diagram
 \<[UML Diagram](https://docs.google.com/presentation/d/1JO-oz9jQ_TWaCfUf6B4DTyEpKEsBwIeAc8VNtiXzlW4/edit?usp=sharing)>
-Description:
+Description: 
+-**Game** class is the driver for our program and has an instance of a board, all 32 pieces, and both players. It initializes the board and displays the game to the GUI.
+-**Chess Piece** keeps track of its own position and has a unique move method defnied in its subclass (Pawns also handle their own promotion). Has a color, type, and a counter for how many moves it has made.
+-**Chess Board** Records the moves that have been played and tracks the state of the game. Determines if a player is in check, Who's turn it is, and can undo turns.
+-**Square** composite class of **Chess Board** (has 64 squares). Has a color, reports if it is occupied and by what piece.
+-**Player** has a color and can forfeit or request a draw.
  
  > ## Phase III
  > You will need to schedule a check-in for the second scrum meeting with the same reader you had your first scrum meeting with (using Calendly). Your entire team must be present. This meeting will occur on week 8 during lab time.
