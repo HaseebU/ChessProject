@@ -10,7 +10,7 @@ Authors: \<[Aaron Song](https://github.com/AaronSxng)\> \<[Jingfang Guan](https:
     * [Python](https://www.python.org/) - Language for gui and ai
     * [Tkinter](https://docs.python.org/3/library/tkinter.html) - Python GUI
   * What will be the input/output of your project? What are the features that the project provides?
-    * The output of the program will be the chess board along with the pieces. The input is the players movement. Some of the features may include a timer, an undo button, and a simple ai.
+    * The output of the program will be the chess board along with the pieces. The input is the players movement. Some of the features may include a timer, an undo button, and a simple ai. The chess program will have a menu page and a fully functional board and pieces. These pieces and boards will have individual roles that work together. The features added to the game is mainly for ease of use.
  
  > ## Phase II
  > In addition to completing the "Class Diagram" section below, you will need to:
