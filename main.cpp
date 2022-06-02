@@ -1,10 +1,9 @@
 #include <SFML/Graphics.hpp>
 #include <time.h>
+#include <string>
 using namespace sf;
 
 #include <iostream>
-
-
 
 const int size = 76;           //Used for grid size in pieces.png
 
@@ -48,7 +47,14 @@ void populateSprites() {
 }
 
 int main() {
-    RenderWindow window(VideoMode(612, 612), "CHESS");
+    //RenderWindow window(VideoMode(612, 612), "CHESS");
+    RenderWindow window(VideoMode(700, 612), "CHESS");
+
+    Font font;
+    font.loadFromFile("fonts/ARIAL.ttf");
+    Text wTimerText("0:00", font, 20);
+    wTimerText.setPosition(630, 70);
+
 
     Texture t1, t2;
     t1.loadFromFile("images/pieces.png");
@@ -61,7 +67,17 @@ int main() {
     int movePiece = 0;          //Tracks which piece in the piece sprites array is to be moved
 
     bool moving = false;        //Tracks if a piece is being moved
-    int px = 0, py = 0;
+    bool gameStart = false;     //Tracks if the game has begun
+    bool blackTurn = false;     //Tracks who's turn it is
+
+
+
+    Clock clock;
+    Time gameTime = seconds(0.0f);
+    Time whiteTime = seconds(0.0f);
+    Time blackTime = seconds(0.0f);
+
+    int offsetX = 0, offsetY = 0;
 
     while (window.isOpen()) {
         Vector2i mouseVec = Mouse::getPosition(window);
@@ -79,11 +95,13 @@ int main() {
                 if (e.key.code == Mouse::Left) {
                     for (int i=0; i<32; i++) {
                         if (pieceSprites[i].getGlobalBounds().contains(mouseVec.x,mouseVec.y)) {
+                            gameStart = true;   //Indicate that the game has begun
+
                             movePiece = i;      //indicate the piece in pieceSprites to be moved
                             moving = true;
                             
-                            px = mouseVec.x - pieceSprites[i].getPosition().x;
-                            py = mouseVec.y - pieceSprites[i].getPosition().y;
+                            offsetX = mouseVec.x - pieceSprites[i].getPosition().x;
+                            offsetY = mouseVec.y - pieceSprites[i].getPosition().y;
                         }
                     }
                 }
@@ -93,21 +111,34 @@ int main() {
             if (e.type == Event::MouseButtonReleased) {
                 if (e.key.code == Mouse::Left) {
                     moving = false;
-                    pieceSprites[movePiece].setScale(1, 1);
+                    pieceSprites[movePiece].setScale(1, 1); //Set piece back to original size
+
+                    pieceSprites[movePiece].setPosition((mouseVec.x/size)*size, ((mouseVec.y/size)*size));  //Snap piece into place when dropped
+
+                    blackTurn = !blackTurn;     //Switch who's turn it is
                 }
             }
 
-            //Update position of the piece that is being moved
+            //Update position of the piece while it is being moved
             if (moving) {
                 pieceSprites[movePiece].setScale(1.1f, 1.1f);
-                pieceSprites[movePiece].setPosition(mouseVec.x-px, mouseVec.y-py);      //Center the piece on the mouse while moving
+                pieceSprites[movePiece].setPosition(mouseVec.x-offsetX, mouseVec.y-offsetY);      //Center the piece on the mouse while moving
             }
+        }
+
+        //Handle clocks
+        if (gameStart == false) {
+            clock.restart();
+        }
+        if (blackTurn == true) {
+
         }
 
         //display
         window.clear();
         window.draw(sBoard);
         for (int i=0; i<32; i++) {window.draw(pieceSprites[i]);}
+        window.draw(wTimerText);
         window.display();
     } //End WindowIsOpen
     return 0;
