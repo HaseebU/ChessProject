@@ -5,7 +5,10 @@ class piece(object):
         self.y = y
 
     def printPiece(self):
-        print(self.name + " ", end='')
+        if(self.color == "white"):
+            print(self.name + " ", end='')
+        else:
+            print(self.name.lower() + " ", end='')
     
     def getName(self):
         return self.name
@@ -91,26 +94,24 @@ class rook(piece):
         super().__init__(color, y, x)
 
     def isLegal(self, board, prev, now):
-        if(prev.getY() < now.getY()):
+        if(prev.getY() < now.getY() and prev.getX() == now.getX()):
             for i in range(prev.getY()+1, now.getY()):
-                if(not board[i][prev.getX()].isEmpty() or prev.getColor() == now.getColor()):
-                    return False
-        elif(prev.getY() > now.getY()):
+                if(board[i][prev.getX()].isEmpty() and prev.getColor() != now.getColor()):
+                    return True
+        elif(prev.getY() > now.getY() and prev.getX() == now.getX()):
             for i in range(now.getY()+1, prev.getY()):
-                if(not board[i][prev.getX()].isEmpty() or prev.getColor() == now.getColor()):
-                    return False
-        if(prev.getX() < now.getX()):
+                if(board[i][prev.getX()].isEmpty() and prev.getColor() != now.getColor()):
+                    return True
+        if(prev.getX() < now.getX() and prev.getY() == now.getY()):
             for i in range(prev.getX()+1, now.getX()):
-                if(not board[prev.getY()][i].isEmpty() or prev.getColor() == now.getColor()):
-                    return False
-        elif(prev.getX() > now.getX()):
+                if(board[prev.getY()][i].isEmpty() and prev.getColor() != now.getColor()):
+                    return True
+        elif(prev.getX() > now.getX() and prev.getY() == now.getY()):
             for i in range(now.getX()+1, prev.getX()):
-                if(not board[prev.getY()][i].isEmpty() or prev.getColor() == now.getColor()):
-                    return False
-        if(prev.getColor() == now.getColor()):
-            return False
+                if(board[prev.getY()][i].isEmpty() and prev.getColor() != now.getColor()):
+                    return True
 
-        return True
+        return False
 
 
 class knight(piece):
@@ -137,23 +138,23 @@ class bishop(piece):
     def isLegal(self, board, prev, now):
         if(abs(prev.getX()-now.getX()) == abs(prev.getY()-now.getY())):
             if(prev.getX() < now.getX()):
-                for i in range(prev.getX()+1, now.getX()):
+                for i in range(prev.getX()+1, now.getX()-1):
                     if(prev.getY() < now.getY()):
-                        for j in range(prev.getY()+1, now.getY()): 
+                        for j in range(prev.getY()+1, now.getY()-1): 
                             if(not board[j][i].isEmpty() or prev.getColor() == now.getColor()):
                                 return False
                     elif(prev.getY() > now.getY()):
-                        for j in range(now.getY()+1, prev.getY()): 
+                        for j in range(now.getY()+1, prev.getY()-1): 
                             if(not board[j][i].isEmpty() or prev.getColor() == now.getColor()):
                                 return False
             elif(prev.getX() > now.getX()):
-                for i in range(now.getX()+1, prev.getX()):
+                for i in range(now.getX()+1, prev.getX()-1):
                     if(prev.getY() < now.getY()):
-                        for j in range(prev.getY()+1, now.getY()): 
+                        for j in range(prev.getY()+1, now.getY()-1): 
                             if(not board[j][i].isEmpty() or prev.getColor() == now.getColor()):
                                 return False
                     elif(prev.getY() > now.getY()):
-                        for j in range(now.getY()+1, prev.getY()): 
+                        for j in range(now.getY()+1, prev.getY()-1): 
                             if(not board[j][i].isEmpty() or prev.getColor() == now.getColor()):
                                 return False
             if(prev.getColor() == now.getColor()):
@@ -168,51 +169,59 @@ class queen(piece):
         super().__init__(color, y, x)
 
     def isLegal(self, board, prev, now):
+        if(abs(prev.getX()-now.getX()) == 1 and abs(prev.getY()-now.getY()) == 1):
+            if(prev.getColor() != now.getColor()):
+                return True
+        elif(abs(prev.getX()-now.getX()) == 1 and abs(prev.getY()-now.getY()) == 0):
+            if(prev.getColor() != now.getColor()):
+                return True
+        elif(abs(prev.getX()-now.getX()) == 0 and abs(prev.getY()-now.getY()) == 1):
+            if(prev.getColor() != now.getColor()):
+                return True
+
         if(abs(prev.getX()-now.getX()) == abs(prev.getY()-now.getY())):
             if(prev.getX() < now.getX()):
-                for i in range(prev.getX()+1, now.getX()):
+                for i in range(prev.getX()+1, now.getX()-1):
                     if(prev.getY() < now.getY()):
-                        for j in range(prev.getY()+1, now.getY()): 
+                        for j in range(prev.getY()+1, now.getY()-1): 
                             if(not board[j][i].isEmpty() or prev.getColor() == now.getColor()):
                                 return False
                     elif(prev.getY() > now.getY()):
-                        for j in range(now.getY()+1, prev.getY()): 
+                        for j in range(now.getY()+1, prev.getY()-1): 
                             if(not board[j][i].isEmpty() or prev.getColor() == now.getColor()):
                                 return False
             elif(prev.getX() > now.getX()):
-                for i in range(now.getX()+1, prev.getX()):
+                for i in range(now.getX()+1, prev.getX()-1):
                     if(prev.getY() < now.getY()):
-                        for j in range(prev.getY()+1, now.getY()): 
+                        for j in range(prev.getY()+1, now.getY()-1): 
                             if(not board[j][i].isEmpty() or prev.getColor() == now.getColor()):
                                 return False
                     elif(prev.getY() > now.getY()):
-                        for j in range(now.getY()+1, prev.getY()): 
+                        for j in range(now.getY()+1, prev.getY()-1): 
                             if(not board[j][i].isEmpty() or prev.getColor() == now.getColor()):
                                 return False
             if(prev.getColor() == now.getColor()):
                 return False
             return True
 
-        if(prev.getY() < now.getY()):
+        if(prev.getY() < now.getY() and prev.getX() == now.getX()):
             for i in range(prev.getY()+1, now.getY()):
-                if(not board[i][prev.getX()].isEmpty() or prev.getColor() == now.getColor()):
-                    return False
-        elif(prev.getY() > now.getY()):
-            for i in range(now.getY()+1, prev.getY()):
-                if(not board[i][prev.getX()].isEmpty() or prev.getColor() == now.getColor()):
-                    return False
-        if(prev.getX() < now.getX()):
+                if(board[i][prev.getX()].isEmpty() and prev.getColor() != now.getColor()):
+                    return True
+        elif(prev.getY() > now.getY() and prev.getX() == now.getX()):
+            for i in range(now.getY(), prev.getY()-1):
+                if(board[i][prev.getX()].isEmpty() and prev.getColor() != now.getColor()):
+                    return True
+        if(prev.getX() < now.getX() and prev.getY() == now.getY()):
             for i in range(prev.getX()+1, now.getX()):
-                if(not board[prev.getY()][i].isEmpty() or prev.getColor() == now.getColor()):
-                    return False
-        elif(prev.getX() > now.getX()):
-            for i in range(now.getX()+1, prev.getX()):
-                if(not board[prev.getY()][i].isEmpty() or prev.getColor() == now.getColor()):
-                    return False
-        if(prev.getColor() == now.getColor()):
-            return False
+                if(board[prev.getY()][i].isEmpty() and prev.getColor() != now.getColor()):
+                    return True
+        elif(prev.getX() > now.getX() and prev.getY() == now.getY()):
+            for i in range(now.getX(), prev.getX()-1):
+                if(board[prev.getY()][i].isEmpty() and prev.getColor() != now.getColor()):
+                    return True
 
-        return True
+        return False
 
 class king(piece):
     def __init__(self, color, y, x):
@@ -221,13 +230,16 @@ class king(piece):
         super().__init__(color, y, x)
 
     def isLegal(self, board, prev, now):
-        if(abs(now.getY()-prev.getY()) > 1):
-            return False
-        if(abs(now.getX()-prev.getX()) > 1):
-            return False
-        if(now.getColor() == prev.getColor()):
-            return False
-        return True
+        if(abs(prev.getX()-now.getX()) == 1 and abs(prev.getY()-now.getY()) == 1):
+            if(prev.getColor() != now.getColor()):
+                return True
+        elif(abs(prev.getX()-now.getX()) == 1 and abs(prev.getY()-now.getY()) == 0):
+            if(prev.getColor() != now.getColor()):
+                return True
+        elif(abs(prev.getX()-now.getX()) == 0 and abs(prev.getY()-now.getY()) == 1):
+            if(prev.getColor() != now.getColor()):
+                return True
+        return False
 
 
 
