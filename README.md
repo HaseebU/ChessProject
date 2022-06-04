@@ -45,4 +45,5 @@ Description:
  > * The first test case is testing when the chess board is initialized, are all chess pieces at the correct position, class, and color.
  > * We unit tested each function for the individual pieces, such as getX, getY, move (different movement mechanisms for each piece), color, collision, capturing, etc.
  > * More specifically, each piece of chess(pawn, rook, biship, king, knight, queen) are tested for all movements following its rule, including capturing opponents' pieces and not capturing teammates. It also passed the test for chess pieces that move more than 1 space are not jumping over any non empty tile. 
+ > * There are also test cases for pieces to detect illegal movement of each kind of chess that should return false when it happens.
  
