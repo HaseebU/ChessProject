@@ -33,7 +33,6 @@ Description:
  > * Make sure your README file and Project board are up-to-date reflecting the current status of your project (e.g. any changes that you have made during the project such as changes to your class diagram). Previous versions should still be visible through your commit history. 
  
  ## Screenshots
- > Screenshots of the input/output after running your application
  > ![image](https://user-images.githubusercontent.com/46555484/171975710-5c3156b0-fcc3-41f5-8e55-0158d436ef85.png)
  > ![image (1)](https://user-images.githubusercontent.com/46555484/171975779-0208e66f-fb9b-4efb-be5a-df7f7f6a529d.png)
  > ![image (2)](https://user-images.githubusercontent.com/46555484/171977242-06c803bd-18d9-4800-8a01-948444205a15.png)
