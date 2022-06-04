@@ -23,7 +23,7 @@ Description:
 * **Player** has a color which it declares. Determines when it is it's time to play.
  
  > ## Phase III
- > In our project we used both **strategy** design patterns. For the implementation of our chess pieces, we used a **strategy** pattern in that each piece has a different **'move' strategy**. Since the chess pieces are very similar, we were able to simplify our code by using an abstract class **Pieces**. Because of this, we only had to define the **'move' strategy** that is unique to each piece. We also used the **composition** design pattern to implement our **board** class. The board is composed of 64 tiles. This allows us to compartmentalize our code so that board is not too cluttered. It also allows us to make many instances of the 'tile' class which all have the same behavior. Overall the use of these design patterns helped us to cooperate more smoothly and to create more readable code.
+ > In our project we used **strategy** design patterns in for chesses in piece class. For the implementation of our chess pieces, we used a **strategy** pattern in that each piece has a different **'islegal' strategy**. Since the chess pieces are very similar, we were able to simplify our code by using an abstract class **Piece**. Because of this, we only had to define the **'islegal' strategy** that each strategy is unique to each piece. **'islegal' strategy** of each kind of chess's function are checking 3 things, whether the movement follows the chess's rule, certain pieces are not jumping over non empty tile, and capturing opponent's pieces.
  
  > ## Final deliverable
  > All group members will give a demo to the TA/reader during lab time. The TA/reader will check the demo and the project GitHub repository and ask a few questions to all the team members. 
@@ -33,10 +33,9 @@ Description:
  > * Make sure your README file and Project board are up-to-date reflecting the current status of your project (e.g. any changes that you have made during the project such as changes to your class diagram). Previous versions should still be visible through your commit history. 
  
  ## Screenshots
+ > Screenshots of the input/output after running your application
  > ![image](https://user-images.githubusercontent.com/46555484/171975710-5c3156b0-fcc3-41f5-8e55-0158d436ef85.png)
  > ![image (1)](https://user-images.githubusercontent.com/46555484/171975779-0208e66f-fb9b-4efb-be5a-df7f7f6a529d.png)
- > ![image (2)](https://user-images.githubusercontent.com/46555484/171977242-06c803bd-18d9-4800-8a01-948444205a15.png)
-
 
  ## Installation/Usage
  > Instructions on installing and running your application
