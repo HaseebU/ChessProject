@@ -26,12 +26,6 @@ Description:
  > In our project we used **strategy** design patterns in for chesses in piece class. For the implementation of our chess pieces, we used a **strategy** pattern in that each piece has a different **'islegal' strategy**. Since the chess pieces are very similar, we were able to simplify our code by using an abstract class **Piece**. Because of this, we only had to define the **'islegal' strategy** that each strategy is unique to each piece. **'islegal' strategy** of each kind of chess's function are checking 3 things, whether the movement follows the chess's rule, certain pieces are not jumping over non empty tile, and capturing opponent's pieces.
  
  > ## Final deliverable
- > All group members will give a demo to the TA/reader during lab time. The TA/reader will check the demo and the project GitHub repository and ask a few questions to all the team members. 
- > Before the demo, you should do the following:
- > * Complete the sections below (i.e. Screenshots, Installation/Usage, Testing)
- > * Plan one more sprint (that you will not necessarily complete before the end of the quarter). Your In-progress and In-testing columns should be empty (you are not doing more work currently) but your TODO column should have a full sprint plan in it as you have done before. This should include any known bugs (there should be some) or new features you would like to add. These should appear as issues/cards on your Project board.
- > * Make sure your README file and Project board are up-to-date reflecting the current status of your project (e.g. any changes that you have made during the project such as changes to your class diagram). Previous versions should still be visible through your commit history. 
- 
  ## Screenshots
  > Screenshots of the input/output after running your application
  > ![image](https://user-images.githubusercontent.com/46555484/171975710-5c3156b0-fcc3-41f5-8e55-0158d436ef85.png)
@@ -48,6 +42,7 @@ Description:
  > * Terminal UI will open with text based move operations
  ## Testing
  > How was your project tested/validated? If you used CI, you should have a "build passing" badge in this README.
+ >  >![image](https://user-images.githubusercontent.com/74108022/171978444-5167e1fc-a92d-4bcc-82b9-3a93ac4cfc4b.png)
  > * The first test case is testing when the chess board is initialized, are all chess pieces at the correct position, class, and color.
  > * We unit tested each function for the individual pieces, such as getX, getY, move (different movement mechanisms for each piece), color, collision, capturing, etc.
  > * More specifically, each piece of chess(pawn, rook, biship, king, knight, queen) are tested for all movements following its rule, including capturing opponents' pieces and not capturing teammates. It also passed the test for chess pieces that move more than 1 space are not jumping over any non empty tile. 
