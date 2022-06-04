@@ -14,8 +14,7 @@ Authors: \<[Aaron Song](https://github.com/AaronSxng)\> \<[Jingfang Guan](https:
     * The output of the program will be the chess board along with the pieces. The input is the players movement. Some of the features may include a timer, an undo button, and a simple ai. The chess program will have a menu page and a fully functional board and pieces. These pieces and boards will have individual roles that work together. The features added to the game is mainly for ease of use.
  
 ## Class Diagram
-![Copy of Chess UML](https://user-images.githubusercontent.com/46555484/171980681-6f9d30c2-36c9-4973-9173-a70877f69721.png)
-
+[Copy of Chess UML]![image](https://user-images.githubusercontent.com/74108022/171981409-73c2b504-f0b6-4230-afad-4d1a7eee02bb.png)
 
 
 
