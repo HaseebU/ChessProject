@@ -1,30 +1,20 @@
+//#include <Python.h>
 #include <SFML/Graphics.hpp>
-#include <time.h>
+//#include <time.h>
 #include <string>
 using namespace sf;
 
 #include <iostream>
+#include <sstream>
+#include <iomanip>
+//#include "GameTimer.hpp"
+#include "GameTimer.cpp"
+#include <cstdint>
+//#include "Stub.py"
 
-const int size = 76;           //Used for grid size in pieces.png
 
-Sprite pieceSprites[32];       //Array of all Sprites for chess pieces
-
-//Stub Init, Eventually should get board data from Board class//
-//6->Pawn           //3->Bishop
-//5->Rook           //2->Queen
-//4->Knight         //1->King
-//Positive->White   //Negative->Black
-int boardNums[8][8] =  {-5, -4, -3, -1, -2, -3, -4, -5,
-                        -6, -6, -6, -6, -6, -6, -6, -6,
-                        0, 0, 0, 0, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0, 0, 0, 0,
-                        6, 6, 6, 6, 6, 6, 6, 6,
-                        5, 4, 3, 1, 2, 3, 4, 5};
-
-//Sets the size and position of the piece sprites
-void populateSprites() {
+//Helper, Sets the size and position of the piece sprites
+void populateSprites(int boardNums[8][8], Sprite pieceSprites[32], int size) {
     int k = 0;
 
     for (int i=0; i < 8; i++) {
@@ -46,22 +36,63 @@ void populateSprites() {
     }
 }
 
+
+
 int main() {
-    //RenderWindow window(VideoMode(612, 612), "CHESS");
+    // PyObject *pName, *pModule, *pDict, *pClass, *pInstance, *pValue;
+    // Py_Initialize();
+    // pName = PyUnicode_FromString("Stub");
+    // pModule = PyImport_Import(pName);
+    // pDict = PyModule_GetDict(pModule);
+    // pClass = PyDict_GetItemString(pDict, "Stub");
+    // if (PyCallable_Check(pClass))
+    // {
+    //     pInstance = PyObject_CallObject(pClass,NULL);
+    // }
+    // pValue = PyObject_CallMethod(pInstance, "getPiece", "(i)", (0, 0));
+    // int cResult = (intptr_t)pValue;
+
+    // Py_Finalize();
+
+    const int size = 76;           //Used for grid size in pieces.png
+    Sprite pieceSprites[32];       //Array of all Sprites for chess pieces
+    GameTimer timer;
+
+    //Stub Init, Eventually should get board data from Board class//
+    //6->Pawn           //3->Bishop
+    //5->Rook           //2->Queen
+    //4->Knight         //1->King
+    //Positive->White   //Negative->Black
+    int boardNums[8][8] =  {-5, -4, -3, -1, -2, -3, -4, -5,
+                            -6, -6, -6, -6, -6, -6, -6, -6,
+                            0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0,
+                            6, 6, 6, 6, 6, 6, 6, 6,
+                            5, 4, 3, 1, 2, 3, 4, 5};
+
+
+    //Renders the window
     RenderWindow window(VideoMode(700, 612), "CHESS");
 
+    //Font for timer printout
     Font font;
     font.loadFromFile("fonts/ARIAL.ttf");
-    Text wTimerText("0:00", font, 20);
-    wTimerText.setPosition(630, 70);
+    //Text to be displayed for timer
+    Text wTimerText("00:00", font, 20), bTimerText("00:00", font, 20);
 
+    //Set timer printout positions
+    wTimerText.setPosition(630, 538);
+    bTimerText.setPosition(630, 70);
 
     Texture t1, t2;
     t1.loadFromFile("images/pieces.png");
     t2.loadFromFile("images/board.png");
 
-    for (int i=0; i<32; i++) {pieceSprites[i].setTexture(t1);}  //Assign all pieces sprites to the pieces.png texture
-    populateSprites();
+    //Assign all pieces sprites to the pieces.png texture
+    for (int i=0; i<32; i++) {pieceSprites[i].setTexture(t1);}
+    populateSprites(boardNums, pieceSprites, size);
 
     Sprite sBoard(t2);          //Assign Sprite to board.png texture
     int movePiece = 0;          //Tracks which piece in the piece sprites array is to be moved
@@ -69,13 +100,6 @@ int main() {
     bool moving = false;        //Tracks if a piece is being moved
     bool gameStart = false;     //Tracks if the game has begun
     bool blackTurn = false;     //Tracks who's turn it is
-
-
-
-    Clock clock;
-    Time gameTime = seconds(0.0f);
-    Time whiteTime = seconds(0.0f);
-    Time blackTime = seconds(0.0f);
 
     int offsetX = 0, offsetY = 0;
 
@@ -95,8 +119,6 @@ int main() {
                 if (e.key.code == Mouse::Left) {
                     for (int i=0; i<32; i++) {
                         if (pieceSprites[i].getGlobalBounds().contains(mouseVec.x,mouseVec.y)) {
-                            gameStart = true;   //Indicate that the game has begun
-
                             movePiece = i;      //indicate the piece in pieceSprites to be moved
                             moving = true;
                             
@@ -108,14 +130,17 @@ int main() {
             }
 
             //Drop object
-            if (e.type == Event::MouseButtonReleased) {
-                if (e.key.code == Mouse::Left) {
-                    moving = false;
-                    pieceSprites[movePiece].setScale(1, 1); //Set piece back to original size
+            if (moving) {
+                if (e.type == Event::MouseButtonReleased) {
+                    if (e.key.code == Mouse::Left) {
+                        moving = false;
+                        gameStart = true;   //Indicate that the game has begun
+                        pieceSprites[movePiece].setScale(1, 1); //Set piece back to original size
 
-                    pieceSprites[movePiece].setPosition((mouseVec.x/size)*size, ((mouseVec.y/size)*size));  //Snap piece into place when dropped
+                        pieceSprites[movePiece].setPosition((mouseVec.x/size)*size, ((mouseVec.y/size)*size));  //Snap piece into place when dropped
 
-                    blackTurn = !blackTurn;     //Switch who's turn it is
+                        blackTurn = !blackTurn;     //Switch who's turn it is
+                    }
                 }
             }
 
@@ -128,10 +153,14 @@ int main() {
 
         //Handle clocks
         if (gameStart == false) {
-            clock.restart();
+            timer.resetTimer();
         }
-        if (blackTurn == true) {
 
+        if (blackTurn == true) {
+            bTimerText.setString(timer.getBTimeString());
+        }
+        else {
+            wTimerText.setString(timer.getWTimeString());
         }
 
         //display
@@ -139,6 +168,7 @@ int main() {
         window.draw(sBoard);
         for (int i=0; i<32; i++) {window.draw(pieceSprites[i]);}
         window.draw(wTimerText);
+        window.draw(bTimerText);
         window.display();
     } //End WindowIsOpen
     return 0;
