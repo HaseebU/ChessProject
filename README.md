@@ -37,6 +37,11 @@ Description:
  > Screenshots of the input/output after running your application
  ## Installation/Usage
  > Instructions on installing and running your application
+ > Download Python 3.10.
+ > Download the following Graphics library for the GUI: https://www.sfml-dev.org/download/sfml/2.5.1/
+ > 
  ## Testing
  > How was your project tested/validated? If you used CI, you should have a "build passing" badge in this README.
+ > • We unit tested each function for the individual pieces, such as getX, getY, move (different movement mechanisms for each piece), color, collision, capturing, etc.
+ > • 
  
