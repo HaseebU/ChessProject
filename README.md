@@ -32,7 +32,12 @@ Description:
  > Screenshots of the input/output after running your application
  > ![image](https://user-images.githubusercontent.com/46555484/171975710-5c3156b0-fcc3-41f5-8e55-0158d436ef85.png)
  > ![image (1)](https://user-images.githubusercontent.com/46555484/171975779-0208e66f-fb9b-4efb-be5a-df7f7f6a529d.png)
- > https://files.slack.com/files-pri/T0396AXDETT-F03J6LD37PX/image.png
+ > ![image](https://user-images.githubusercontent.com/93061497/171981245-96be7595-0e0e-44a7-b123-695f66ba00af.png)
+ > <img width="356" alt="image (2)" src="https://user-images.githubusercontent.com/93061497/171981302-1057bf6d-cfc0-443d-8191-01990a647f5b.png">
+ > <img width="353" alt="image (1)" src="https://user-images.githubusercontent.com/93061497/171981309-c873e81c-e249-4103-bc6c-c3ee250856d2.png">
+
+
+
 
  ## Installation/Usage
  > Instructions on installing and running your application
