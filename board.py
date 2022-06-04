@@ -1,3 +1,4 @@
+from hashlib import new
 import numpy as np
 
 from piece import pawn
@@ -39,86 +40,97 @@ class board():
         self.board[7][6] = knight("black", 7, 6)
         self.board[7][7] = rook("black", 7, 7)
 
+    def getPiece(self, x, y):
+        return self.board[y][x]
+
     def move(self, prev, now):
-        oldSpot = self.board[prev[0]][prev[1]]
-        if(now[0] >= 0 and now[0] < 8):
-            if(now[1] >= 0 and now[1] < 8):
-                newSpot = self.board[now[0]][now[1]]
+        oldSpot = self.board[prev[1]][prev[0]]
+        if(now[1] >= 0 and now[1] < 8):
+            if(now[0] >= 0 and now[0] < 8):
+                newSpot = self.board[now[1]][now[0]]
         else:
             return False
-        if(oldSpot.isLegal(oldSpot, newSpot)):
-            if(self.spaceBetween(oldSpot, newSpot)):
-                return True
-            else:
-                return False
+
+        if(oldSpot.isLegal(self.board, oldSpot, newSpot)):
+            return self.swap(oldSpot, newSpot)
+        return False
 
     def spaceBetween(self, prev, now):
         if(prev.getName() == 'P'):
+            if(abs(prev.getX()-now.getX()) == 1):
+                if(abs(prev.getY()-now.getY()) == 1):
+                    return True
+                
             if(prev.getColor() == "white"):
-                for i in range(prev.getY(), now.getY()):
-                    if(not self.board[prev.getX()][i]):
+                for i in range(prev.getY()+1, now.getY()):
+                    if(not self.board[i][prev.getX()].isEmpty()):
                         return False
+                if(prev.getY()+1 == now.getY()):
+                    if(not self.board[prev.getY()][prev.getX()].isEmpty()):
+                        return True
             else:
-                for i in range(now.getY(), prev.getY()):
-                    if(not self.board[prev.getX()][i]):
+                for i in range(now.getY()+1, prev.getY()):
+                    if(not self.board[i][prev.getX()].isEmpty()):
                         return False
+                if(now.getY()+1 == prev.getY()):
+                    if(not self.board[now.getY()][prev.getX()].isEmpty()):
+                        return True
 
         elif(prev.getName() == 'R' or prev.getName() == 'K' or prev.getName() == 'Q'):
             if(prev.getY() < now.getY()):
-                for i in range(prev.getY(), now.getY()-1):
-                    if(not self.board[prev.getX()][i].isEmpty()):
+                for i in range(prev.getY()+1, now.getY()):
+                    if(not self.board[i][prev.getX()].isEmpty()):
                         return False
             elif(prev.getY() > now.getY()):
-                for i in range(now.getY()-1, prev.getY()):
-                    if(not self.board[prev.getX()][i].isEmpty()):
+                for i in range(now.getY()+1, prev.getY()):
+                    if(not self.board[i][prev.getX()].isEmpty()):
                         return False
             if(prev.getX() < now.getX()):
-                for i in range(prev.getX(), now.getX()-1):
-                    if(not self.board[i][prev.getY()].isEmpty()):
+                for i in range(prev.getX()+1, now.getX()):
+                    if(not self.board[prev.getY()][i].isEmpty()):
                         return False
-            elif(prev.getX() > now.getX()-1):
-                for i in range(now.getX(), prev.getX()):
-                    if(not self.board[i][prev.getY()].isEmpty()):
+            elif(prev.getX() > now.getX()):
+                for i in range(now.getX()+1, prev.getX()):
+                    if(not self.board[prev.getY()][i].isEmpty()):
                         return False
 
         if(prev.getName() == 'B' or prev.getName() == 'K' or prev.getName() == 'Q'):
             if(prev.getX() < now.getX()):
-                for i in range(prev.getX(), now.getX()-1):
+                for i in range(prev.getX()+1, now.getX()):
                     if(prev.getY() < now.getY()):
-                        for j in range(prev.getY(), now.getY()-1): 
-                            if(not self.board[i][j].isEmpty()):
+                        for j in range(prev.getY()+1, now.getY()): 
+                            if(not self.board[j][i].isEmpty()):
                                 return False
                     elif(prev.getY() > now.getY()):
-                        for j in range(now.getY()-1, prev.getY()): 
-                            if(not self.board[i][j].isEmpty()):
+                        for j in range(now.getY()+1, prev.getY()): 
+                            if(not self.board[j][i].isEmpty()):
                                 return False
             elif(prev.getX() > now.getX()):
-                for i in range(now.getX()-1, prev.getX()):
+                for i in range(now.getX()+1, prev.getX()):
                     if(prev.getY() < now.getY()):
-                        for j in range(prev.getY(), now.getY()-1): 
-                            if(not self.board[i][j].isEmpty()):
+                        for j in range(prev.getY()+1, now.getY()): 
+                            if(not self.board[j][i].isEmpty()):
                                 return False
                     elif(prev.getY() > now.getY()):
-                        for j in range(now.getY()-1, prev.getY()): 
-                            if(not self.board[i][j].isEmpty()):
+                        for j in range(now.getY()+1, prev.getY()): 
+                            if(not self.board[j][i].isEmpty()):
                                 return False
         return True
 
-    def collision(self, prev, now):
+    def swap(self, prev, now):
         if(not now.isEmpty()):
-            if(now.getColor() != prev.getColor()):
-                temp = empty(prev.getX(), prev.getY())
+            if(prev.getColor() != now.getColor):
+                temp = empty(prev.getY(), prev.getX())
                 prev.setCord(now.getX(), now.getY())
-                self.board[now.getX()][now.getY] = now
-                self.board[prev.getX()][prev.getY] = temp
+                self.board[now.getY()][now.getX()] = prev   
+                self.board[temp.getY()][temp.getX()] = temp
                 return True
         else:
-            if(now.isEmpty):
-                temp = empty(prev.getX(), prev.getY())
-                prev.setCord(now.getX(), now.getY())
-                self.board[now.getX()][now.getY] = now
-                self.board[prev.getX()][prev.getY] = temp
-                return True
+            temp = empty(prev.getY(), prev.getX())
+            prev.setCord(now.getX(), now.getY())
+            self.board[now.getY()][now.getX()] = prev   
+            self.board[temp.getY()][temp.getX()] = temp
+            return True
         return False
 
     def printBoard(self):
@@ -129,7 +141,8 @@ class board():
 
 if __name__ == '__main__':
     run = board()
-    run.printBoard()
-    print(run.move([0,1],[0,2]))
+    run.board[2,1] = rook("black", 2, 1)
+
+
     run.printBoard()
 

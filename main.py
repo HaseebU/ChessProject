@@ -2,4 +2,6 @@ from board import board
 
 if __name__ == '__main__':
     run = board()
-    board.printBoard()
+    run.printBoard()
+    for i in range(1,1):
+        print(i)
